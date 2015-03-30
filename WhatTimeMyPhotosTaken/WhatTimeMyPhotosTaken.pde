@@ -90,8 +90,8 @@ void drawTimeRects(){
 void displayLabels(){
   //"AM" & "PM"
   textSize(18);
-  text("AM", 5, height/19 - 10);
-  text("PM", 5, height*10/19 - 10);
+  text("AM", width/50, height/19 - 10);
+  text("PM", width/50, height*10/19 - 10);
   
   //AM time labels
   textSize(10);
