@@ -5,6 +5,7 @@ import java.util.Date;
 float backRectWidth, backRectHeight;
 ArrayList<Photo> photos = new ArrayList<Photo>();
 int[] photoCountsInEvery10Minutes = new int[24*6];
+int[] photoCountsOnTheDayOfTheWeek = new int[7];
 
 //=============== setup() ===============
 void setup(){
@@ -32,6 +33,7 @@ void setup(){
       Date parsedDatetime = sdf.parse(datetime);
       
       registerWhichTimeSlotThePhotoWasTaken(parsedDatetime);
+      registerWhatDayThePhotoWasTaken(parsedDatetime);
             
       //add new Photo instance to the arraylist
       photos.add(new Photo(filename, parsedDatetime, latitude, latitudeRef, longitude, longitudeRef));
@@ -50,8 +52,14 @@ void setup(){
   //drawAllExifTimeLines();
   //drawSomeExifTimeLines();
  
+  //time slot
   for(int i = 0; i < 24*6; i++){
     println("There are " + photoCountsInEvery10Minutes[i] + " photos between " + i + " and " + (i+1) + " slot.");
+  }
+  
+  //day of the week
+  for(int i = 0; i <7; i++){
+    println("There are " + photoCountsOnTheDayOfTheWeek[i] + " photos on the day of " + i + "."); 
   }
 }
 
@@ -70,6 +78,15 @@ void registerWhichTimeSlotThePhotoWasTaken(Date _parsedDatetime){
   photoCountsInEvery10Minutes[hour*6 + minute10]++;
   
 }
+
+//=============== registerWhatDayThePhotoWasTaken() ===============
+void registerWhatDayThePhotoWasTaken(Date _parsedDatetime){
+  //check the day of the week
+  int day = _parsedDatetime.getDay();
+  
+  photoCountsOnTheDayOfTheWeek[day]++;
+}
+
 
 //=============== drawTimeRects() ===============
 void drawTimeRects(){
