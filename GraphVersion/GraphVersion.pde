@@ -2,20 +2,20 @@
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-ArrayList<Photo> photos = new ArrayList<Photo>();
-
-int[] phCountsInEvery10MinsOnSunday    = new int[24*6];
-int[] phCountsInEvery10MinsOnMonday    = new int[24*6];
-int[] phCountsInEvery10MinsOnTuesday   = new int[24*6];
-int[] phCountsInEvery10MinsOnWednesday = new int[24*6];
-int[] phCountsInEvery10MinsOnThursday  = new int[24*6];
-int[] phCountsInEvery10MinsOnFriday    = new int[24*6];
-int[] phCountsInEvery10MinsOnSaturday  = new int[24*6];
+ArrayList<Photo> photos = new ArrayList<Photo>(); //storing all the photo data
+ArrayList<int[]> photoCounts = new ArrayList<int[]>(); //how many photos taken on each day
+int[] graphOnOff = {1, 1, 1, 1, 1, 1, 1};
 
 //=============== setup() ===============
 void setup() {
   size(1400, 400);
   colorMode(HSB, 360, 100, 100);
+
+  //add arrays of Sun ~ Sat photo count  
+  for(int i = 0; i < 7; i++){
+    int[] pCountOnTheDay = new int[24*6];
+    photoCounts.add(pCountOnTheDay);
+  }
 
   //import csv
   Table dateTable = loadTable("datetime.csv", "header");
@@ -37,7 +37,7 @@ void setup() {
       SimpleDateFormat sdf = new SimpleDateFormat("yyyy:MM:dd HH:mm:ss");
       Date parsedDatetime = sdf.parse(datetime);
 
-      registerThePhotoToArray(parsedDatetime);
+      countUpThePhoto(parsedDatetime);
 
       //add new Photo instance to the arraylist
       photos.add(new Photo(filename, parsedDatetime, latitude, latitudeRef, longitude, longitudeRef));
@@ -47,25 +47,17 @@ void setup() {
       //do nothing
     }
   } //----------------------------------------------------------------------------
-
-  //execute these once for visualization
-  background(100);
-  displayLabels();
-  drawGraph();
-
-  //time slot
-  for (int i = 0; i < 24*6; i++) {
-    println("There are " + phCountsInEvery10MinsOnSunday[i] + " photos between " + i + " and " + (i+1) + " slot.");
-  }
 }
 
 //=============== draw() ===============
 void draw() {
-  //do nothing
+  background(100);
+  displayLabels();
+  drawGraph();
 }
 
-//=============== registerThePhotoToArray() ===============
-void registerThePhotoToArray(Date _parsedDatetime) {
+//=============== countUpThePhoto() ===============
+void countUpThePhoto(Date _parsedDatetime) {
   //check the day of the week
   int day = _parsedDatetime.getDay();
 
@@ -74,29 +66,9 @@ void registerThePhotoToArray(Date _parsedDatetime) {
   float minute   = _parsedDatetime.getMinutes();
   int   minute10 = round(minute/6.0); //0 ~ 6
 
-  switch(day) {
-  case 0:
-    phCountsInEvery10MinsOnSunday[hour*6 + minute10]++;
-    break;
-  case 1:
-    phCountsInEvery10MinsOnMonday[hour*6 + minute10]++;
-    break;
-  case 2:
-    phCountsInEvery10MinsOnTuesday[hour*6 + minute10]++;
-    break;
-  case 3:
-    phCountsInEvery10MinsOnWednesday[hour*6 + minute10]++;
-    break;
-  case 4:
-    phCountsInEvery10MinsOnThursday[hour*6 + minute10]++;
-    break;
-  case 5:
-    phCountsInEvery10MinsOnFriday[hour*6 + minute10]++;
-    break;
-  case 6:
-    phCountsInEvery10MinsOnSaturday[hour*6 + minute10]++;
-    break;
-  }
+  //increment the photo count of the day
+  photoCounts.get(day)[hour*6 + minute10]++;
+
 }
 
 //=============== displayLabels() ===============
@@ -104,26 +76,40 @@ void displayLabels() {
 
   //color code for each day
   textSize(18);
-
-  fill(360*1/7, 100, 100);
+  
+  int bri = 100;
+  if(graphOnOff[0] < 0) bri = 20;
+  fill(360*1/7, 100, bri);
   text("Sun", 20, 30);
 
-  fill(360*2/7, 100, 100);
+  bri = 100;
+  if(graphOnOff[1] < 0) bri = 20;
+  fill(360*2/7, 100, bri);
   text("Mon", 20, 50);
 
-  fill(360*3/7, 100, 100);
+  bri = 100;
+  if(graphOnOff[2] < 0) bri = 20;
+  fill(360*3/7, 100, bri);
   text("Tue", 20, 70);
 
-  fill(360*4/7, 100, 100);
+  bri = 100;
+  if(graphOnOff[3] < 0) bri = 20;
+  fill(360*4/7, 100, bri);
   text("Wed", 20, 90);
 
-  fill(360*5/7, 100, 100);
+  bri = 100;
+  if(graphOnOff[4] < 0) bri = 20;
+  fill(360*5/7, 100, bri);
   text("Thu", 20, 110);
 
-  fill(360*6/7, 100, 100);
+  bri = 100;
+  if(graphOnOff[5] < 0) bri = 20;
+  fill(360*6/7, 100, bri);
   text("Fri", 20, 130);
 
-  fill(360*7/7, 100, 100);
+  bri = 100;
+  if(graphOnOff[6] < 0) bri = 20;
+  fill(360*7/7, 100, bri);
   text("Sat", 20, 150);
 
   //axis
@@ -142,33 +128,23 @@ void displayLabels() {
 //=============== drawGraph() ===============
 void drawGraph() {
   //get the world record to determine the height of the graph
-  int maxSun = getTheLargestValueOfTheArray(phCountsInEvery10MinsOnSunday);
-  int maxMon = getTheLargestValueOfTheArray(phCountsInEvery10MinsOnMonday);
-  int maxTue = getTheLargestValueOfTheArray(phCountsInEvery10MinsOnTuesday);
-  int maxWed = getTheLargestValueOfTheArray(phCountsInEvery10MinsOnWednesday);
-  int maxThu = getTheLargestValueOfTheArray(phCountsInEvery10MinsOnThursday);
-  int maxFri = getTheLargestValueOfTheArray(phCountsInEvery10MinsOnFriday);
-  int maxSat = getTheLargestValueOfTheArray(phCountsInEvery10MinsOnSaturday);
+  int maxSun = getTheLargestValueOfTheArray(photoCounts.get(0));
+  int maxMon = getTheLargestValueOfTheArray(photoCounts.get(1));
+  int maxTue = getTheLargestValueOfTheArray(photoCounts.get(2));
+  int maxWed = getTheLargestValueOfTheArray(photoCounts.get(3));
+  int maxThu = getTheLargestValueOfTheArray(photoCounts.get(4));
+  int maxFri = getTheLargestValueOfTheArray(photoCounts.get(5));
+  int maxSat = getTheLargestValueOfTheArray(photoCounts.get(6));
   int[] maxArray = {
     maxSun, maxMon, maxTue, maxWed, maxThu, maxFri, maxSat
   };
   int worldRecord = getTheLargestValueOfTheArray(maxArray); 
-  println("The world record is " + worldRecord);
-
-  //store all the photo count arrays int one array
-  ArrayList<int[]> week = new ArrayList<int[]>();
-  week.add(phCountsInEvery10MinsOnSunday);
-  week.add(phCountsInEvery10MinsOnMonday);
-  week.add(phCountsInEvery10MinsOnTuesday);
-  week.add(phCountsInEvery10MinsOnWednesday);
-  week.add(phCountsInEvery10MinsOnThursday);
-  week.add(phCountsInEvery10MinsOnFriday);
-  week.add(phCountsInEvery10MinsOnSaturday);
+  ///println("The world record is " + worldRecord);
 
   noStroke();
   float min10Width = (width-160)/(24*6.0);
-  for (int d = 0; d < week.size(); d++) {
-    int[] day = week.get(d);
+  for (int d = 0; d < photoCounts.size(); d++) {
+    int[] day = photoCounts.get(d);
     ArrayList<PVector> dots = new ArrayList<PVector>(); //storing dots to be connected to draw lines
 
     for (int i = 0; i < 24*6; i++) {  
@@ -204,8 +180,11 @@ void drawGraph() {
       break;
     }
     
-    //draw lines
-    connectDots(dots);
+    
+    if(graphOnOff[d] > 0){
+      //draw lines
+      connectDots(dots);
+    }
   }
 }
 
@@ -231,7 +210,62 @@ void connectDots(ArrayList<PVector> _dots){
 
 //=============== mousePressed() ===============
 void mousePressed() {
-  save("GraphVersion.png");
-  exit();
+  if(mouseX > 20 && mouseX < 60 && mouseY > 13 && mouseY < 33){
+    //Sun
+    graphOnOff[0] = graphOnOff[0] * (-1); //trigger on and off
+    
+  } else if (mouseX > 20 && mouseX < 60 && mouseY > 33 && mouseY < 53){
+    //Mon
+    graphOnOff[1] = graphOnOff[1] * (-1); //trigger on and off
+    
+  } else if (mouseX > 20 && mouseX < 60 && mouseY > 53 && mouseY < 73){
+    //Tue
+    graphOnOff[2] = graphOnOff[2] * (-1); //trigger on and off
+    
+  } else if (mouseX > 20 && mouseX < 60 && mouseY > 73 && mouseY < 93){
+    //Wed
+    graphOnOff[3] = graphOnOff[3] * (-1); //trigger on and off
+    
+  } else if (mouseX > 20 && mouseX < 60 && mouseY > 93 && mouseY < 113){
+    //Thu
+    graphOnOff[4] = graphOnOff[4] * (-1); //trigger on and off
+    
+  } else if (mouseX > 20 && mouseX < 60 && mouseY > 113 && mouseY < 133){
+    //Fri
+    graphOnOff[5] = graphOnOff[5] * (-1); //trigger on and off
+    
+  } else if (mouseX > 20 && mouseX < 60 && mouseY > 133 && mouseY < 153){
+    //Sat
+    graphOnOff[6] = graphOnOff[6] * (-1); //trigger on and off
+  }
+  
 }
 
+//=============== keyPressed() ===============
+void keyPressed() {
+  if(key == 'p'){
+    save("GraphVersion.png");
+    exit();
+  }
+}
+
+//  fill(360*1/7, 100, 100);
+//  text("Sun", 20, 30);
+//
+//  fill(360*2/7, 100, 100);
+//  text("Mon", 20, 50);
+//
+//  fill(360*3/7, 100, 100);
+//  text("Tue", 20, 70);
+//
+//  fill(360*4/7, 100, 100);
+//  text("Wed", 20, 90);
+//
+//  fill(360*5/7, 100, 100);
+//  text("Thu", 20, 110);
+//
+//  fill(360*6/7, 100, 100);
+//  text("Fri", 20, 130);
+//
+//  fill(360*7/7, 100, 100);
+//  text("Sat", 20, 150);
