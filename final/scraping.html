@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script src="jquery.xdomainajax.js"> </script>
+<script>
+  var url = 'http://www.colordic.org/w/';
+  $.get(url, function(data){
+    var content = $(data.responseText).find('.colortable').text();
+    $("#result").text(content);
+  });
+  </script>
+</head>
+<body>
+	<div id="result"></div>
+
+
+</body>

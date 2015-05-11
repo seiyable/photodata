@@ -1,0 +1,33 @@
+{"results": 
+	[
+		{
+			"info": {
+				"background_colors": 
+					[
+						{"b": "42", "g": "28", "closest_palette_distance": 6.820715267167831, "closest_palette_color_parent": "maroon", "r": "72", "html_code": "#481c2a", "closest_palette_color_html_code": "#532d3b", "closest_palette_color": "bordeaux", "percentage": 22.6}, 
+						{"b": "124", "g": "178", "closest_palette_distance": 5.0795556963075725, "closest_palette_color_parent": "skin", "r": "235", "html_code": "#ebb27c", "closest_palette_color_html_code": "#ecb694", "closest_palette_color": "fair rose-beige", "percentage": 23.85}, 
+						{"b": "46", "g": "99", "closest_palette_distance": 7.248038552346132, "closest_palette_color_parent": "skin", "r": "189", "html_code": "#bd632e", "closest_palette_color_html_code": "#ac7654", "closest_palette_color": "dark rose-beige", "percentage": 53.55}
+					],
+				"color_variance": "39", 
+				"object_percentage": "6.74", 
+				"image_colors": 
+					[
+						{"b": "172", "g": "172", "percent": 18.69, "closest_palette_color_parent": "skin", "r": "242", "html_code": "#f2ac6e", "closest_palette_color_html_code": "#ecb694", "closest_palette_color": "fair rose-beige", "closest_palette_distance": 6.522451941531214}, 
+						{"b": "19", "g": "19", "percent": 9.12, "closest_palette_color_parent": "navy blue", "r": "29", "html_code": "#1d132a", "closest_palette_color_html_code": "#2b2e43", "closest_palette_color": "navy blue", "closest_palette_distance": 12.437683316591647}, 
+						{"b": "41", "g": "41", "percent": 26.54, "closest_palette_color_parent": "skin", "r": "113", "html_code": "#71290d", "closest_palette_color_html_code": "#743e1c", "closest_palette_color": "medium bronze", "closest_palette_distance": 6.936431829621125}, 
+						{"b": "167", "g": "167", "percent": 11.2, "closest_palette_color_parent": "skin", "r": "200", "html_code": "#c8a786", "closest_palette_color_html_code": "#d4a27c", "closest_palette_color": "medium rose-beige", "closest_palette_distance": 4.579636978844928}, 
+						{"b": "111", "g": "111", "percent": 34.45, "closest_palette_color_parent": "skin", "r": "205", "html_code": "#cd6f36", "closest_palette_color_html_code": "#ac7654", "closest_palette_color": "dark rose-beige", "closest_palette_distance": 7.428517624780304}
+					], 
+				"color_percent_threshold": 1.75, 
+				"foreground_colors": 
+					[
+						{"b": "44", "g": "21", "closest_palette_distance": 11.950995433513507, "closest_palette_color_parent": "navy blue", "r": "19", "html_code": "#13152c", "closest_palette_color_html_code": "#2b2e43", "closest_palette_color": "navy blue", "percentage": 21.4}, 
+						{"b": "47", "g": "88", "closest_palette_distance": 2.955285431672519, "closest_palette_color_parent": "skin", "r": "131", "html_code": "#83582f", "closest_palette_color_html_code": "#8c5e37", "closest_palette_color": "light bronze", "percentage": 42.88}, 
+						{"b": "140", "g": "170", "closest_palette_distance": 3.1156897319053654, "closest_palette_color_parent": "light brown", "r": "196", "html_code": "#c4aa8c", "closest_palette_color_html_code": "#baaa91", "closest_palette_color": "champagne", "percentage": 35.72}
+					]
+				}, 
+				"image": "http://s5884.com/w/photodata_final_photos/japan_1.jpg"
+		}
+	], 
+	"unsuccessful": []
+}
